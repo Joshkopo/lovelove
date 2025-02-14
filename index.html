@@ -188,7 +188,7 @@
 
     <!-- Main Content (Initially Hidden) -->
     <div class="hidden" id="mainContent">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm">
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm" style="background-color: #333;">
             <div class="container">
                 <a class="navbar-brand" href="#" style="font-family: 'Segoe Script', cursive; font-size: 2rem; color: #ff6b6b;">
                     Love
@@ -199,13 +199,13 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#home" style="font-size: 1.2rem; color: #333;">Home</a>
+                            <a class="nav-link active" href="#home" style="font-size: 1.2rem; color: #ffffff;">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#gallery" style="font-size: 1.2rem; color: #333;">Gallery</a>
+                            <a class="nav-link" href="#gallery" style="font-size: 1.2rem; color: #ffffff;">Gallery</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#about" style="font-size: 1.2rem; color: #333;">About Us</a>
+                            <a class="nav-link" href="#about" style="font-size: 1.2rem; color: #ffffff;">About Us</a>
                         </li>
                     </ul>
                 </div>
@@ -219,14 +219,57 @@
                 <div class="text-center">
                     <h1 class="display-4">Happy Valentine's Day love!!!</h1>
                     <p class="lead">
-                        Enjoy this special day filled with love, happiness, and warmth. Let's celebrate together and create memories that will last a lifetime!
+                        Love na love kita palagi love love ko!!! Pasensya na wala akong bulaklak na mabigay sayo love di tulad dati may nabibigay ako sayo. 
+                        <p class="lead">
+                        Thankyou lagi dahil lagi mo kong iniintindi pagpagod ako kauwi,pagmatutulog ako maaga lagi mo kong naiintindihan love.
+                <p class="lead">Palagi mong tatandaan na mahal na mahal kita palagi love ko kahit anong mangyari,hinding hindi kita iiwan o pagpapalit love! Want na want ko na nga maging asawa ka!</p>
+                <p class="lead">Yun lang love ko skl, see you later mamaya sa bebetime ne</p>
+                <p class="lead"> Thank you so muuuuuuuch love!
+            </p>
+            <p class="lead"> I love you love!!!
+        </p>
+            </p>
                     </p>
+                  
                     <div class="heart">💖</div>
+                 <!-- Download Button -->
+<a href="cert.png" download class="btn-download">Download Certificate</a>
+
+<!-- Add this CSS to style the button -->
+<style>
+    .btn-download {
+        display: inline-block;
+        text-decoration: none;
+        background-color: #ffffff; /* Green background */
+        color: rgb(243, 0, 0);
+        padding: 12px 24px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 5px;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(222, 48, 48, 0.804) !important;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn-download:hover {
+        background-color: #bd0e37; /* Darker green on hover */
+        transform: scale(1.05); /* Slight zoom effect */
+        color: white !important;
+    }
+
+    .btn-download:active {
+        background-color: #ffffff; /* Even darker green when clicked */
+        transform: scale(1);
+    }
+</style>
+
+
                 </div>
             </section>
 
             <!-- Gallery Section -->
-            <section id="gallery" class="fadeInSection">
+            <section id="gallery" class="fadeInSection" style="margin-top: 100px;">
                 <h2 class="mb-4">Our Memories</h2>
                 <div class="row row-cols-1 row-cols-md-3 g-4">
                     <div class="col">
@@ -323,7 +366,6 @@
             </section>
 
             <!-- About Section -->
-            <!-- About Section -->
 <section id="about" class="fadeInSection">
     <h2 class="text-center mb-4" style="font-family: 'Segoe Script', cursive; color: #ff6b6b;">About Us</h2>
     <div class="row justify-content-center">
@@ -337,7 +379,7 @@
                     <br><br>
                     We celebrate the little moments, the laughter, and the joy we share. Together, we’ve built a world of love, and we look forward to all the adventures that are yet to come. 
                     <br><br>
-                    Join us in celebrating the essence of love that connects us all, because love is the most beautiful thing in the world.
+                    Join us in celebrating the essence of love that connects us all, because love is the most beautiful thing in the world. Thankyou pareng chatgpt and love you love ko HAHAHAHAHHA
                 </p>
                 <div class="text-center">
                     <a href="#gallery" class="btn btn-outline-danger btn-lg" style="border-radius: 50px; padding: 10px 30px; font-size: 1.2rem;">See Our Memories</a>
@@ -374,30 +416,35 @@
                 showHappyAnniversaryVideo();
             } else {
                 // Incorrect anniversary date
-                document.getElementById('errorMessage').textContent = "Oops! That's not our anniversary date. Try again!";
+                document.getElementById('errorMessage').textContent = "Obat obat??? . Try again!";
                 showWrongAnniversaryVideo();
             }
         }
     
         function showHappyAnniversaryVideo() {
-            const videoElement = document.getElementById('anniversaryVideo');
-            const videoSource = document.getElementById('videoSource');
-            const overlay = document.getElementById('videoOverlay');
-            
-            // Set video source to mp4/happy.mp4
-            videoSource.src = 'mp4/happy.mp4'; // Update path to your mp4 folder
-            videoElement.load(); // Load the new video
-            videoElement.style.display = 'block'; // Show the video
-            overlay.style.display = 'block'; // Show the overlay
+    const videoElement = document.getElementById('anniversaryVideo');
+    const videoSource = document.getElementById('videoSource');
+    const overlay = document.getElementById('videoOverlay');
     
-            // Play the happy video for 4 seconds, then navigate to home
-            videoElement.play();
-            setTimeout(() => {
-                videoElement.style.display = 'none'; // Hide the video
-                overlay.style.display = 'none'; // Hide the overlay
-                window.location.href = '#home'; // Go to home page
-            }, 2000); // 4 seconds delay
-        }
+    // Set video source to mp4/happy.mp4
+    videoSource.src = 'mp4/happy.mp4'; // Update path to your mp4 folder
+    videoElement.load(); // Load the new video
+    videoElement.style.display = 'block'; // Show the video
+    overlay.style.display = 'block'; // Show the overlay
+
+    // Play the video
+    videoElement.play();
+    
+    // Stop the video after 2 seconds, even if it's longer
+    setTimeout(() => {
+        videoElement.pause(); // Pause the video
+        videoElement.currentTime = 0; // Reset video to the start
+        videoElement.style.display = 'none'; // Hide the video
+        overlay.style.display = 'none'; // Hide the overlay
+        window.location.href = '#home'; // Go to home page
+    }, 2000); // 2 seconds delay
+}
+
     
         function showWrongAnniversaryVideo() {
     const videoElement = document.getElementById('anniversaryVideo');
@@ -424,7 +471,7 @@
     setTimeout(() => {
         videoElement.style.display = 'none'; // Hide the video
         overlay.style.display = 'none'; // Hide the overlay
-    }, 2000); // 2 seconds delay
+    }, 1000); // 2 seconds delay
 }
 
     </script>
