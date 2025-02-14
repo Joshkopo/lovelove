@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anniversary Celebration</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Basic Styling */
+        body {
+            font-family: Arial, sans-serif;
+        }
+        
+        .date-selection {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(45deg, #e72424, #e18f8f);
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        .gallery-img {
+            height: 500px; /* Change to portrait orientation */
+            width: 100%;  /* Ensure the images are responsive */
+            object-fit: cover;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .gallery-img:hover {
+            transform: scale(1.1);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .nav-link.active {
+            color: #ff6b6b !important;
+            font-weight: bold;
+        }
+
+        .heart {
+            font-size: 50px;
+            animation: heartBeat 1s infinite;
+        }
+
+        /* Animation for FadeIn */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Animation for Heartbeat */
+        @keyframes heartBeat {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Smooth Scroll for Navigation */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Animation for Section Fade In */
+        .fadeInSection {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInSection 1s forwards;
+        }
+
+        @keyframes fadeInSection {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Gallery Section Animations */
+        .gallery-img {
+            opacity: 0;
+            animation: fadeInSection 1s forwards;
+            animation-delay: 0.3s;
+        }
+
+        .gallery-img:nth-child(2) {
+            animation-delay: 0.6s;
+        }
+
+        .gallery-img:nth-child(3) {
+            animation-delay: 0.9s;
+        }
+           /* Center the video in the middle of the screen */
+           #anniversaryVideo {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            display: none;
+        }
+    
+        /* Semi-transparent overlay behind the video */
+        #videoOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 9998;
+            display: none;
+        } 
+    </style>
+</head>
+<body>
+     
+     
+    
+    <!-- Add the overlay and video inside the mainContent div -->
+    <div id="videoOverlay"></div>
+    <video id="anniversaryVideo" width="80%" height="auto" controls>
+        <source id="videoSource" src="" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Date Selection Page -->
+    <div class="date-selection" id="dateSelection">
+        <div class="card p-4">
+            <h3 class="text-center mb-4">Select</h3>
+            <div class="row g-3 mb-3">
+                <div class="col">
+                    <select class="form-select" id="month">
+                        <option value="">Month</option>
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <select class="form-select" id="day">
+                        <option value="">Day</option>
+                        <!-- Add days 1-31 -->
+                        <script>
+                            for(let d = 1; d <= 31; d++) {
+                                document.write(`<option value="${d}">${d}</option>`);
+                            }
+                        </script>
+                    </select>
+                </div>
+                <div class="col">
+                    <select class="form-select" id="year">
+                        <option value="">Year</option>
+                        <!-- Add recent years -->
+                        <script>
+                            for(let y = 2010; y <= 2024; y++) {
+                                document.write(`<option value="${y}">${y}</option>`);
+                            }
+                        </script>
+                    </select>
+                </div>
+            </div>
+            <button class="btn btn-primary w-100" onclick="checkDate()">Submit</button>
+            <div id="errorMessage" class="text-danger mt-2"></div>
+        </div>
+    </div>
+
+    <!-- Main Content (Initially Hidden) -->
+    <div class="hidden" id="mainContent">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm">
+            <div class="container">
+                <a class="navbar-brand" href="#" style="font-family: 'Segoe Script', cursive; font-size: 2rem; color: #ff6b6b;">
+                    Love
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#home" style="font-size: 1.2rem; color: #333;">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#gallery" style="font-size: 1.2rem; color: #333;">Gallery</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#about" style="font-size: 1.2rem; color: #333;">About Us</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+
+        <div class="container mt-5">
+            <!-- Home Section -->
+            <section id="home" class="fadeInSection" style="margin-top: 100px;">
+                <div class="text-center">
+                    
+                </div>
+            </section>
+
+            <!-- Gallery Section -->
+            <section id="gallery" class="fadeInSection">
+                <h2 class="mb-4">Our Memories</h2>
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    <div class="col">
+                        <div class="card">
+                            <img src="img/1.jpeg" class="card-img-top gallery-img"> <!-- Portrait Image -->
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card">
+                            <img src="img/2.jpg" class="card-img-top gallery-img"> <!-- Portrait Image -->
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card">
+                            <img src="img/3.jpeg" class="card-img-top gallery-img"> <!-- Portrait Image -->
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card">
+                            <img src="img/4.jpeg" class="card-img-top gallery-img"> <!-- Portrait Image -->
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card">
+                            <img src="img/5.jpeg" class="card-img-top gallery-img"> <!-- Portrait Image -->
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card">
+                            <img src="img/6.jpg" class="card-img-top gallery-img"> <!-- Portrait Image -->
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card">
+                            <img src="img/7.jpg" class="card-img-top gallery-img"> <!-- Portrait Image -->
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card">
+                            <img src="img/8.jpg" class="card-img-top gallery-img"> <!-- Portrait Image -->
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card">
+                            <img src="img/9.jpeg" class="card-img-top gallery-img"> <!-- Portrait Image -->
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card">
+                            <img src="img/9.jpg" class="card-img-top gallery-img"> <!-- Portrait Image -->
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card">
+                            <img src="img/77.jpg" class="card-img-top gallery-img"> <!-- Portrait Image -->
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card">
+                            <img src="img/11.jpg" class="card-img-top gallery-img"> <!-- Portrait Image -->
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card">
+                            <img src="img/1212.png" class="card-img-top gallery-img"> <!-- Portrait Image -->
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card">
+                            <img src="img/a.jpg" class="card-img-top gallery-img"> <!-- Portrait Image -->
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card">
+                            <img src="img/b.jpg" class="card-img-top gallery-img"> <!-- Portrait Image -->
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card">
+                            <img src="img/c.png" class="card-img-top gallery-img"> <!-- Portrait Image -->
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card">
+                            <img src="img/d.jpg" class="card-img-top gallery-img"> <!-- Portrait Image -->
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card">
+                            <img src="img/ee.jpg" class="card-img-top gallery-img"> <!-- Portrait Image -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <!-- About Section -->
+<section id="about" class="fadeInSection">
+    <h2 class="text-center mb-4" style="font-family: 'Segoe Script', cursive; color: #ff6b6b;">About Us</h2>
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card p-4 shadow-sm" style="border-radius: 15px; background-color: #f8f9fa;">
+                <div class="text-center mb-3">
+                    <img src="img/6.jpg" alt="Us" class="img-fluid rounded-circle" style="width: 150px; height: 150px; object-fit: cover;">
+                </div>
+                <p class="lead text-center mb-4" style="font-size: 1.25rem; line-height: 1.8; color: #555;">
+                    We are two souls united by love, creating beautiful memories together every day. Our journey began on a special day we call our anniversary, and continues to grow stronger with each passing moment. 
+                    <br><br>
+                    We celebrate the little moments, the laughter, and the joy we share. Together, we’ve built a world of love, and we look forward to all the adventures that are yet to come. 
+                    <br><br>
+                    Join us in celebrating the essence of love that connects us all, because love is the most beautiful thing in the world.
+                </p>
+                <div class="text-center">
+                    <a href="#gallery" class="btn btn-outline-danger btn-lg" style="border-radius: 50px; padding: 10px 30px; font-size: 1.2rem;">See Our Memories</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+   
+    
+    <script>
+        function checkDate() {
+            const month = document.getElementById('month').value;
+            const day = document.getElementById('day').value;
+            const year = document.getElementById('year').value;
+    
+            // Log the selected values to the console
+            console.log(`Selected Date: ${month}/${day}/${year}`);
+    
+            // Set your anniversary date here
+            const correctDate = { month: '5', day: '24', year: '2022' };
+    
+            if (month === correctDate.month && day === correctDate.day && year === correctDate.year) {
+                // Correct anniversary date
+                document.getElementById('dateSelection').classList.add('hidden');
+                document.getElementById('mainContent').classList.remove('hidden');
+                
+                // Show "happy" anniversary video for 4 seconds and then navigate
+                showHappyAnniversaryVideo();
+            } else {
+                // Incorrect anniversary date
+                document.getElementById('errorMessage').textContent = "Oops! That's not our anniversary date. Try again!";
+                showWrongAnniversaryVideo();
+            }
+        }
+    
+        function showHappyAnniversaryVideo() {
+            const videoElement = document.getElementById('anniversaryVideo');
+            const videoSource = document.getElementById('videoSource');
+            const overlay = document.getElementById('videoOverlay');
+            
+            // Set video source to mp4/happy.mp4
+            videoSource.src = 'mp4/happy.mp4'; // Update path to your mp4 folder
+            videoElement.load(); // Load the new video
+            videoElement.style.display = 'block'; // Show the video
+            overlay.style.display = 'block'; // Show the overlay
+    
+            // Play the happy video for 4 seconds, then navigate to home
+            videoElement.play();
+            setTimeout(() => {
+                videoElement.style.display = 'none'; // Hide the video
+                overlay.style.display = 'none'; // Hide the overlay
+                window.location.href = '#home'; // Go to home page
+            }, 2000); // 4 seconds delay
+        }
+    
+        function showWrongAnniversaryVideo() {
+    const videoElement = document.getElementById('anniversaryVideo');
+    const videoSource = document.getElementById('videoSource');
+    const overlay = document.getElementById('videoOverlay');
+    
+    // Set video source to mp4/r.mp4 (wrong video)
+    videoSource.src = 'mp4/r.mp4'; // Update path to your mp4 folder
+    videoElement.load(); // Load the new video
+    videoElement.style.display = 'block'; // Show the video
+    overlay.style.display = 'block'; // Show the overlay
+    
+    // Play the first video
+    videoElement.play();
+
+    // After 0.5 seconds, play the second video
+    setTimeout(() => {
+        // Reset the video to play again from the start
+        videoElement.currentTime = 0;
+        videoElement.play();
+    }, 500); // 0.5 seconds delay for the second video
+
+    // Hide the video and overlay after 2 seconds in total (after both videos)
+    setTimeout(() => {
+        videoElement.style.display = 'none'; // Hide the video
+        overlay.style.display = 'none'; // Hide the overlay
+    }, 2000); // 2 seconds delay
+}
+
+    </script>
+    
+<script>
+    // Array of image URLs
+    const images = [
+        "img/1.jpeg", "img/2.jpg", "img/3.jpeg", "img/4.jpeg", "img/5.jpeg", "img/6.jpg",
+        "img/7.jpg", "img/8.jpg", "img/9.jpeg", "img/9.jpg", "img/77.jpg", "img/11.jpg",
+        "img/1212.png", "img/a.jpg", "img/b.jpg", "img/c.png", "img/d.jpg", "img/ee.jpg"
+    ];
+
+    // Function to update images randomly
+    function changeImages() {
+        const galleryImages = document.querySelectorAll('.gallery-img');
+
+        galleryImages.forEach(image => {
+            let randomImage = images[Math.floor(Math.random() * images.length)];
+            image.src = randomImage; // Update the image src
+        });
+    }
+
+    // Change images every 3 seconds
+    setInterval(changeImages, 3000);
+
+</script>
+
+</body>
+</html>
